@@ -1,10 +1,18 @@
 describe('Dropdown Options Selection and Validation', () => {
   beforeEach(() => {
     cy.visit('/', {
-     headers: { 'Accept-Language': 'en-NP' }
-   });
+      headers: { 'Accept-Language': 'en-NP' },
+      onBeforeLoad(window) {
+        window.addEventListener('error', (e) => {
+          // Prevent certain errors from being thrown
+          if (e.message.includes('clientX')) {
+            e.preventDefault(); // Prevent the default behavior (error reporting)
+          }
+        });
+      },
+    });
   });
-
+  
   it('should validate dropdown options with the existing JSON file', () => {
     // Load the existing JSON file
     cy.fixture('dropdown-options.json').then((expectedOptions) => {
@@ -15,7 +23,7 @@ describe('Dropdown Options Selection and Validation', () => {
         .find('option')
         .each(($option) => {
           const optionText = $option.text().trim(); // Extract and trim the text
-          actualOptions.push(optionText); // Add to the actual options array
+          actualOptions.push(optionText);
         })
         .then(() => {
           // Assert that the actual options match the expected options
@@ -29,6 +37,8 @@ describe('Dropdown Options Selection and Validation', () => {
      .invoke('css', 'opacity', '1')
      .should('have.css', 'opacity', '1')
      .should('be.visible');
+    //The above command changes the css opacity value due to which 
+    //we will be able to view the dropdown option being changed as a User and be verified in screenshot.
 
    cy.fixture('dropdown-options.json').then((dropdownOptions) => {
      dropdownOptions.forEach((dropdownOption) => {
