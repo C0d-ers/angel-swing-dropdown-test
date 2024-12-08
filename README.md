@@ -20,6 +20,12 @@ Before you begin, ensure that you have [Node.js](https://nodejs.org/) installed 
 ### Running Cypress Tests
 
 Once Cypress is installed, you can run the tests in two different modes: headed (with a browser GUI) and headless (without the browser GUI). Just run the commands below:
-Headed mode (with GUI):
+#Headed mode (with GUI):
+
    ```bash
-   npm run cypress:open
+   npm run cypress:headed
+
+#Headless mode (without GUI):
+
+   ```bash
+   npm run cypress:headless
